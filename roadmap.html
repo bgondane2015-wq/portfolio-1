@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Analyst Roadmap</title>
+<style>
+:root{--bg:#f3f6f4;--ink:#16302b;--mute:#5b706b;--line:#c9d6d1;--card:#fff;--accent:#0f766e;--accent2:#e9b44c}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1c1a;--ink:#e6f0ed;--mute:#93a9a3;--line:#274240;--card:#15272438;--accent:#3fc1b0;--accent2:#e9b44c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.6}
+.wrap{max-width:720px;margin:0 auto;padding:40px 20px 60px}
+h1{font-size:2.4rem;line-height:1.15;margin:0 0 10px}
+.sub{color:var(--mute);margin:0 0 28px;font-family:system-ui,sans-serif;font-size:1rem}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.pct{font-family:system-ui,sans-serif;font-size:.9rem;color:var(--mute);margin:8px 0 28px}
+ol{list-style:none;margin:0;padding:0;border-left:3px solid var(--line)}
+li{position:relative;margin:0 0 18px 22px}
+li::before{content:"";position:absolute;left:-31px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
+li.done::before{background:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+h2{font-size:1.25rem;margin:0}
+.time{font-family:system-ui,sans-serif;font-size:.85rem;color:var(--mute);white-space:nowrap}
+.card p{margin:6px 0 10px;color:var(--mute)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tags span{font-family:system-ui,sans-serif;font-size:.8rem;padding:2px 10px;border-radius:99px;border:1px solid var(--line)}
+label{font-family:system-ui,sans-serif;font-size:.9rem;display:flex;gap:8px;align-items:center;cursor:pointer}
+input{width:18px;height:18px;accent-color:var(--accent)}
+li.done h2{text-decoration:line-through;text-decoration-color:var(--accent2)}
+:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+footer{margin-top:30px;font-family:system-ui,sans-serif;font-size:.85rem;color:var(--mute)}
+@media (max-width:480px){h1{font-size:1.9rem}.head{flex-direction:column;gap:2px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Become a data analyst in about 6 months</h1>
+  <p class="sub">Six steps, in order. Tick each one as you finish it.</p>
+  <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="fill"></i></div>
+  <div class="pct" id="pct">0 of 6 steps done</div>
+  <ol id="steps"></ol>
+  <footer>Progress is kept only while this page is open.</footer>
+</main>
+<script>
+const steps=[
+["Excel and spreadsheets","3 weeks","Clean data, sort, filter, and summarise it with formulas and pivot tables.",["Formulas","Pivot tables","Charts"]],
+["Statistics basics","4 weeks","Learn averages, spread, probability, and how to test whether a result is real.",["Mean and median","Distributions","Hypothesis tests"]],
+["SQL","5 weeks","Pull data from databases. Most analyst jobs use SQL every day.",["SELECT and WHERE","JOINs","GROUP BY","Window functions"]],
+["Python or R","6 weeks","Automate cleaning and analysis on larger datasets.",["pandas","NumPy","Jupyter"]],
+["Visualization and BI tools","4 weeks","Turn numbers into dashboards that people can read at a glance.",["Power BI","Tableau","matplotlib"]],
+["Portfolio and job hunt","4 weeks","Build 3 projects with real data, write up your findings, and apply.",["GitHub","Case studies","Resume"]]
+];
+const ol=document.getElementById("steps");
+steps.forEach((s,i)=>{
+  const li=document.createElement("li");
+  li.innerHTML=`<div class="card"><div class="head"><h2>${s[0]}</h2><span class="time">${s[1]}</span></div><p>${s[2]}</p><div class="tags">${s[3].map(t=>`<span>${t}</span>`).join("")}</div><label><input type="checkbox" data-i="${i}"> Mark as done</label></div>`;
+  ol.appendChild(li);
+});
+ol.addEventListener("change",e=>{
+  e.target.closest("li").classList.toggle("done",e.target.checked);
+  const n=ol.querySelectorAll("input:checked").length,p=Math.round(n/steps.length*100);
+  document.getElementById("fill").style.width=p+"%";
+  document.getElementById("pct").textContent=n+" of "+steps.length+" steps done";
+  document.querySelector(".bar").setAttribute("aria-valuenow",p);
+});
+</script>
+</body>
+</html>
